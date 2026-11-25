@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Library Membership</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border: 1px solid #ccc;
+        }
+
+        fieldset {
+            border: 2px solid #4CAF50;
+            padding: 20px;
+        }
+
+        legend {
+            color: #4CAF50;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #999;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        /* Valid input */
+        input:valid,
+        select:valid,
+        textarea:valid {
+            border: 2px solid green;
+        }
+
+        /* Invalid input */
+        input:invalid,
+        select:invalid,
+        textarea:invalid {
+            border: 2px solid red;
+        }
+
+        /* Focus */
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border: 2px solid #4CAF50;
+            outline: none;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #388E3C;
+        }
+
+        #success {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #d4edda;
+            color: green;
+            text-align: center;
+        }
+
+        #error {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8d7da;
+            color: red;
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <form id="libraryForm">
+
+        <fieldset>
+
+            <legend>Digital Library Membership</legend>
+
+            <!-- Name -->
+            <label for="name">Student Name:</label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+                minlength="3"
+                maxlength="30"
+                required
+                pattern="[A-Za-z ]+"
+            >
+
+
+            <!-- Email -->
+            <label for="email">Email:</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="example@gmail.com"
+                required
+            >
+
+
+            <!-- Age -->
+            <label for="age">Age:</label>
+
+            <input
+                type="number"
+                id="age"
+                placeholder="Enter your age"
+                min="17"
+                max="60"
+                required
+            >
+
+
+            <!-- Department -->
+            <label for="department">Department:</label>
+
+            <select id="department" required>
+
+                <option value="">Select Department</option>
+
+                <option value="CSE">Computer Science</option>
+
+                <option value="AIML">AI & Machine Learning</option>
+
+                <option value="ECE">Electronics</option>
+
+                <option value="EEE">Electrical</option>
+
+            </select>
+
+
+            <!-- Membership -->
+            <label for="membership">Membership Type:</label>
+
+            <select id="membership" required>
+
+                <option value="">Select Membership</option>
+
+                <option value="student">Student</option>
+
+                <option value="faculty">Faculty</option>
+
+            </select>
+
+
+            <!-- Phone -->
+            <label for="phone">Phone Number:</label>
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="Enter 10 digit number"
+                minlength="10"
+                maxlength="10"
+                pattern="[0-9]{10}"
+                required
+            >
+
+
+            <!-- Reason -->
+            <label for="reason">Why do you want library membership?</label>
+
+            <textarea
+                id="reason"
+                placeholder="Enter your reason"
+                minlength="10"
+                maxlength="200"
+                required
+            ></textarea>
+
+
+            <!-- Submit -->
+            <button type="submit">
+                Register
+            </button>
+
+        </fieldset>
+
+    </form>
+
+
+    <!-- Messages -->
+
+    <div id="error">
+        Please correct the invalid information.
+    </div>
+
+    <div id="success">
+        Library membership registered successfully!
+    </div>
+
+
+    <script>
+
+        const form = document.getElementById("libraryForm");
+
+        const name = document.getElementById("name");
+
+        const error = document.getElementById("error");
+
+        const success = document.getElementById("success");
+
+
+        form.addEventListener("submit", function(event) {
+
+            // Stop page reload
+            event.preventDefault();
+
+
+            // Check form validity
+            if (!form.checkValidity()) {
+
+                // Show browser validation messages
+                form.reportValidity();
+
+                error.style.display = "block";
+
+                success.style.display = "none";
+
+                return;
+            }
+
+
+            // Custom validation
+            if (name.value.trim().length < 3) {
+
+                name.setCustomValidity(
+                    "Name must contain at least 3 characters."
+                );
+
+                form.reportValidity();
+
+                return;
+
+            } else {
+
+                name.setCustomValidity("");
+
+            }
+
+
+            // Successful submission
+            error.style.display = "none";
+
+            success.style.display = "block";
+
+            form.reset();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
