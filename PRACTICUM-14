@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Library - Search and Filter</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        section {
+            padding: 25px;
+            margin: 20px;
+            background-color: white;
+        }
+
+        /* Search area */
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input,
+        select {
+            padding: 12px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        input:focus,
+        select:focus {
+            border: 2px solid #4CAF50;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #388E3C;
+            transform: scale(1.05);
+        }
+
+        /* Book cards */
+
+        #bookList {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .book {
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #fafafa;
+            transition: transform 0.3s;
+        }
+
+        .book:hover {
+            transform: translateY(-5px);
+        }
+
+        .book img {
+            width: 100px;
+            height: 120px;
+        }
+
+        /* Accordion */
+
+        details {
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            #bookList {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <h1>Digital Library</h1>
+
+        <p>Search and Filter Library Books</p>
+
+    </header>
+
+
+    <section>
+
+        <h2>Find a Book</h2>
+
+        <!-- Search and Filter -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search book name or author">
+
+            <select id="category">
+
+                <option value="all">All Categories</option>
+
+                <option value="Programming">Programming</option>
+
+                <option value="AI">AI & ML</option>
+
+                <option value="Web">Web Technology</option>
+
+            </select>
+
+            <button id="searchBtn">
+                Search
+            </button>
+
+        </div>
+
+
+        <!-- Book List -->
+
+        <div id="bookList">
+
+            <div class="book"
+                 data-category="Programming">
+
+                <img
+                    src="https://via.placeholder.com/100"
+                    alt="Python Book">
+
+                <h3>Python Programming</h3>
+
+                <p>Author: Mark Lutz</p>
+
+                <p>Category: Programming</p>
+
+            </div>
+
+
+            <div class="book"
+                 data-category="AI">
+
+                <img
+                    src="https://via.placeholder.com/100"
+                    alt="AI Book">
+
+                <h3>Artificial Intelligence</h3>
+
+                <p>Author: Stuart Russell</p>
+
+                <p>Category: AI</p>
+
+            </div>
+
+
+            <div class="book"
+                 data-category="Web">
+
+                <img
+                    src="https://via.placeholder.com/100"
+                    alt="Web Book">
+
+                <h3>HTML and CSS</h3>
+
+                <p>Author: Jon Duckett</p>
+
+                <p>Category: Web</p>
+
+            </div>
+
+
+            <div class="book"
+                 data-category="Programming">
+
+                <img
+                    src="https://via.placeholder.com/100"
+                    alt="C Programming Book">
+
+                <h3>C Programming</h3>
+
+                <p>Author: Dennis Ritchie</p>
+
+                <p>Category: Programming</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Accordion -->
+
+    <section>
+
+        <h2>Library Information</h2>
+
+        <details>
+
+            <summary>Library Facilities</summary>
+
+            <p>
+                Our library provides e-books, Wi-Fi,
+                computer access and a reading room.
+            </p>
+
+        </details>
+
+
+        <details>
+
+            <summary>Membership</summary>
+
+            <p>
+                Students and faculty can register
+                for digital library membership.
+            </p>
+
+        </details>
+
+
+        <details>
+
+            <summary>Library Timing</summary>
+
+            <p>
+                Monday to Saturday: 8:00 AM - 8:00 PM
+            </p>
+
+        </details>
+
+    </section>
+
+
+    <script>
+
+        // Select elements
+
+        const search =
+            document.querySelector("#search");
+
+        const category =
+            document.querySelector("#category");
+
+        const searchBtn =
+            document.querySelector("#searchBtn");
+
+        const books =
+            document.querySelectorAll(".book");
+
+
+        // Search button
+
+        searchBtn.addEventListener("click", function() {
+
+            const searchText =
+                search.value.toLowerCase();
+
+            const selectedCategory =
+                category.value;
+
+
+            // Convert books to array
+
+            const bookArray =
+                Array.from(books);
+
+
+            // Filter books
+
+            const filteredBooks =
+                bookArray.filter(function(book) {
+
+                    const title =
+                        book.querySelector("h3")
+                            .textContent
+                            .toLowerCase();
+
+                    const author =
+                        book.querySelector("p")
+                            .textContent
+                            .toLowerCase();
+
+                    const bookCategory =
+                        book.dataset.category;
+
+
+                    return (
+                        (title.includes(searchText) ||
+                         author.includes(searchText))
+                        &&
+                        (selectedCategory === "all" ||
+                         bookCategory === selectedCategory)
+                    );
+
+                });
+
+
+            // Hide all books
+
+            books.forEach(function(book) {
+
+                book.classList.add("hidden");
+
+            });
+
+
+            // Show filtered books
+
+            filteredBooks.forEach(function(book) {
+
+                book.classList.remove("hidden");
+
+            });
+
+        });
+
+
+        // Enter key search
+
+        search.addEventListener("keyup", function() {
+
+            searchBtn.click();
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>
