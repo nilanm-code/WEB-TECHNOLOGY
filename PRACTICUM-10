@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Library</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        section {
+            padding: 25px;
+            margin: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+
+        .form-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #388E3C;
+        }
+
+        #bookList {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .book {
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #fafafa;
+        }
+
+        .book span {
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            background-color: #e53935;
+            margin-top: 10px;
+        }
+
+        .remove-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        #message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+
+            #bookList {
+                grid-template-columns: 1fr;
+            }
+
+            .form-box {
+                flex-direction: column;
+            }
+
+            input,
+            button {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+
+        <h1>Digital Library</h1>
+
+        <p>Manage your library books easily</p>
+
+    </header>
+
+
+    <!-- Add Book Section -->
+    <section>
+
+        <h2>Add a New Book</h2>
+
+        <div class="form-box">
+
+            <input
+                type="text"
+                id="bookName"
+                placeholder="Enter book name">
+
+            <input
+                type="text"
+                id="authorName"
+                placeholder="Enter author name">
+
+            <input
+                type="text"
+                id="category"
+                placeholder="Enter category">
+
+            <button id="addBtn">
+                Add Book
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- Book Display Section -->
+    <section>
+
+        <h2>Library Books</h2>
+
+        <ul id="bookList">
+
+        </ul>
+
+    </section>
+
+
+    <!-- Message -->
+    <div id="message">
+
+        <span id="messageText"></span>
+
+    </div>
+
+
+    <script>
+
+        // Get elements
+        const bookName = document.getElementById("bookName");
+        const authorName = document.getElementById("authorName");
+        const category = document.getElementById("category");
+
+        const addBtn = document.getElementById("addBtn");
+        const bookList = document.getElementById("bookList");
+
+        const message = document.getElementById("message");
+        const messageText = document.getElementById("messageText");
+
+
+        // Add Book
+        addBtn.addEventListener("click", function() {
+
+            // Check empty fields
+            if (
+                bookName.value === "" ||
+                authorName.value === "" ||
+                category.value === ""
+            ) {
+                showMessage("Please enter all details");
+                return;
+            }
+
+
+            // Create new list item
+            const newBook = document.createElement("li");
+
+            newBook.className = "book";
+
+
+            // Add book information
+            newBook.innerHTML = `
+                <p>
+                    <span>Book:</span>
+                    ${bookName.value}
+                </p>
+
+                <p>
+                    <span>Author:</span>
+                    ${authorName.value}
+                </p>
+
+                <p>
+                    <span>Category:</span>
+                    ${category.value}
+                </p>
+            `;
+
+
+            // Create remove button
+            const removeBtn = document.createElement("button");
+
+            removeBtn.textContent = "Remove";
+
+            removeBtn.setAttribute("class", "remove-btn");
+
+
+            // Remove book
+            removeBtn.addEventListener("click", function() {
+
+                newBook.remove();
+
+                showMessage("Book removed");
+
+            });
+
+
+            // Add button to book
+            newBook.appendChild(removeBtn);
+
+
+            // Add book to list
+            bookList.appendChild(newBook);
+
+
+            // Display message
+            showMessage("Book added successfully");
+
+
+            // Clear inputs
+            bookName.value = "";
+            authorName.value = "";
+            category.value = "";
+
+        });
+
+
+        // Display message
+        function showMessage(text) {
+
+            messageText.textContent = text;
+
+            message.style.display = "block";
+
+            setTimeout(function() {
+
+                message.style.display = "none";
+
+            }, 2000);
+
+        }
+
+
+        // querySelector example
+        const heading = document.querySelector("h2");
+
+        heading.style.color = "#4CAF50";
+
+    </script>
+
+</body>
+
+</html>
